@@ -1,0 +1,9 @@
+{
+  "translation": {
+    "appName": "Task Manager",
+    "welcome": "Bienvenido a Task Manager",
+    "users": "Usuarios",
+    "logIn": "Iniciar sesión",
+    "signUp": "Registrarse"
+  }
+}

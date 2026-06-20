@@ -1,0 +1,24 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= t('appName')
+    link(rel="stylesheet" href="/assets/bundle.css")
+  body
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      .container
+        a.navbar-brand(href="/") TaskManager
+        .collapse.navbar-collapse
+          ul.navbar-nav.ms-auto
+            li.nav-item
+              a.nav-link(href="/users") #{t('users')}
+            li.nav-item
+              a.nav-link(href="/session/new") #{t('logIn')}
+            li.nav-item
+              a.nav-link(href="/users/new") #{t('signUp')}
+
+    .container.mt-5
+      h1= t('welcome')
+
+    script(src="/assets/bundle.js")
