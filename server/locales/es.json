@@ -1,9 +1,22 @@
 {
-  "translation": {
-    "appName": "Task Manager",
-    "welcome": "Bienvenido a Task Manager",
-    "users": "Usuarios",
-    "logIn": "Iniciar sesión",
-    "signUp": "Registrarse"
-  }
+  "appName": "Task Manager",
+  "welcome": "Bienvenido a Task Manager",
+  "users": "Usuarios",
+  "logIn": "Iniciar sesión",
+  "logOut": "Cerrar sesión",
+  "signUp": "Registrarse",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "password": "Contraseña",
+  "editUser": "Editar usuario",
+  "save": "Guardar",
+  "edit": "Editar",
+  "delete": "Eliminar",
+  "userCreated": "Usuario creado exitosamente",
+  "userCreateError": "Error al crear el usuario",
+  "userUpdated": "Usuario actualizado exitosamente",
+  "userUpdateError": "Error al actualizar el usuario",
+  "userDeleted": "Usuario eliminado exitosamente",
+  "accessDenied": "Acceso denegado",
+  "loggedOut": "Sesión cerrada exitosamente"
 }

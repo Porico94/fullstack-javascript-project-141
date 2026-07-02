@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1= t('users')
+  table.table
+    thead
+      tr
+        th ID
+        th #{t('firstName')}
+        th #{t('lastName')}
+        th Email
+        th
+    tbody
+      each user in users
+        tr
+          td= user.id
+          td= user.firstName
+          td= user.lastName
+          td= user.email
+          td
+            a.btn.btn-secondary.btn-sm(href=`/users/${user.id}/edit`) #{t('edit')}
+            form.d-inline(action=`/users/${user.id}/delete` method="POST")
+              button.btn.btn-danger.btn-sm(type="submit") #{t('delete')}

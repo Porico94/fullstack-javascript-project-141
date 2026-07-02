@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  h1= t('editUser')
+  form(action=`/users/${user.id}` method="POST")
+    .mb-3
+      label.form-label(for="data_firstName") #{t('firstName')}
+      input.form-control(type="text" name="data[firstName]" id="data_firstName" value=user.firstName)
+    .mb-3
+      label.form-label(for="data_lastName") #{t('lastName')}
+      input.form-control(type="text" name="data[lastName]" id="data_lastName" value=user.lastName)
+    .mb-3
+      label.form-label(for="data_email") Email
+      input.form-control(type="email" name="data[email]" id="data_email" value=user.email)
+    .mb-3
+      label.form-label(for="data_password") #{t('password')}
+      input.form-control(type="password" name="data[password]" id="data_password")
+    button.btn.btn-primary(type="submit") #{t('save')}
