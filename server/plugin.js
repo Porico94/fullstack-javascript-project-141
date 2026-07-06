@@ -23,12 +23,12 @@ const { Model } = objection;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const createApp = async (options = {}) => {
+const createApp = async (options = {}, knexInstance = null) => {
   const app = fastify(options);
 
   const env = process.env.NODE_ENV || 'development';
-  const knexInstance = knex(knexConfig[env]);
-  Model.knex(knexInstance);
+  const db = knexInstance || knex(knexConfig[env]);
+  Model.knex(db);
 
   await i18next
     .use(Backend)

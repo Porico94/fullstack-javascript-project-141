@@ -9,7 +9,7 @@
   },
   "scripts": {
     "prebuild": "rm -rf dist",
-    "test": "jest --verbose --runInBand",
+    "test": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --verbose --runInBand",
     "build": "webpack",
     "start": "fastify start server/plugin.js -l info -P -o"
   },
@@ -19,7 +19,9 @@
     ],
     "setupFiles": [
       "dotenv/config"
-    ]
+    ],
+    "testEnvironment": "node",    
+    "transform": {}
   },
   "author": "",
   "license": "ISC",
