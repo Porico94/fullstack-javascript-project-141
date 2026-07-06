@@ -20,7 +20,7 @@
     "setupFiles": [
       "dotenv/config"
     ],
-    "testEnvironment": "node",    
+    "testEnvironment": "node",
     "transform": {}
   },
   "author": "",
@@ -72,6 +72,6 @@
     "jest": "^30.3.0",
     "jest-cli": "^30.3.0",
     "style-loader": "^4.0.0",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "6.0.1"
   }
 }
