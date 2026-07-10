@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  h1= t('statuses')
+  a.btn.btn-primary.mb-3(href="/statuses/new") #{t('createStatus')}
+  table.table
+    thead
+      tr
+        th ID
+        th #{t('name')}
+        th
+    tbody
+      each status in statuses
+        tr
+          td= status.id
+          td= status.name
+          td
+            a.btn.btn-secondary.btn-sm(href=`/statuses/${status.id}/edit`) #{t('edit')}
+            form.d-inline(action=`/statuses/${status.id}/delete` method="POST")
+              button.btn.btn-danger.btn-sm(type="submit") #{t('delete')}

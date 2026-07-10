@@ -15,6 +15,7 @@ import fastifySession from '@fastify/session';
 import fastifyPassport from '@fastify/passport';
 import knexConfig from '../knexfile.js';
 import User from './models/User.js';
+import TaskStatus from './models/TaskStatus.js';
 import setupPassport from './lib/passport.js';
 
 
@@ -182,6 +183,74 @@ const createApp = async (options = {}, knexInstance = null) => {
     await request.logOut();
     request.flash('success', i18next.t('loggedOut'));
     return reply.redirect('/');
+  });
+
+  app.get('/statuses', async (request, reply) => {
+    const statuses = await TaskStatus.query();
+    return reply.render('statuses/index.pug', { statuses });
+  });
+
+  app.get('/statuses/new', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    return reply.render('statuses/new.pug');
+  });
+
+  app.post('/statuses', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { name } = request.body;
+    try {
+      await TaskStatus.query().insert({ name });
+      request.flash('success', i18next.t('statusCreated'));
+      return reply.redirect('/statuses');
+    } catch (error) {
+      request.flash('error', i18next.t('statusCreateError'));
+      return reply.render('statuses/new.pug', { errors: error.data });
+    }
+  });
+
+  app.get('/statuses/:id/edit', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const status = await TaskStatus.query().findById(id);
+    return reply.render('statuses/edit.pug', { status });
+  });
+
+  app.post('/statuses/:id', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const { name } = request.body;
+    try {
+      await TaskStatus.query().patchAndFetchById(id, { name });
+      request.flash('success', i18next.t('statusUpdated'));
+      return reply.redirect('/statuses');
+    } catch (error) {
+      const status = await TaskStatus.query().findById(id);
+      request.flash('error', i18next.t('statusUpdateError'));
+      return reply.render('statuses/edit.pug', { status, errors: error.data });
+    }
+  });
+
+  app.post('/statuses/:id/delete', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    await TaskStatus.query().deleteById(id);
+    request.flash('success', i18next.t('statusDeleted'));
+    return reply.redirect('/statuses');
   });
 
   return app;

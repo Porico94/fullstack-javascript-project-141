@@ -13,6 +13,8 @@ html(lang="es")
           ul.navbar-nav.ms-auto
             li.nav-item
               a.nav-link(href="/users") #{t('users')}
+            li.nav-item
+              a.nav-link(href="/statuses") #{t('statuses')}
             if currentUser
               li.nav-item
                 span.nav-link #{currentUser.firstName}
