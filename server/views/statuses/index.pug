@@ -2,7 +2,8 @@ extends ../layout
 
 block content
   h1= t('statuses')
-  a.btn.btn-primary.mb-3(href="/statuses/new") #{t('createStatus')}
+  if currentUser
+    a.btn.btn-primary.mb-3(href="/statuses/new") #{t('createStatus')}
   table.table
     thead
       tr

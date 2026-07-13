@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+  h1= task.name
+  p #{t('status')}: #{task.status ? task.status.name : ''}
+  p #{t('creator')}: #{task.creator ? task.creator.firstName : ''}
+  p #{t('executor')}: #{task.executor ? task.executor.firstName : ''}
+  if task.description
+    p #{t('description')}: #{task.description}
+  if currentUser && currentUser.id === task.creatorId
+    a.btn.btn-secondary(href=`/tasks/${task.id}/edit`) #{t('edit')}
+    form.d-inline(action=`/tasks/${task.id}/delete` method="POST")
+      button.btn.btn-danger(type="submit") #{t('delete')}

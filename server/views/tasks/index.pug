@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+  h1= t('tasks')
+  if currentUser
+    a.btn.btn-primary.mb-3(href="/tasks/new") #{t('createTask')}
+  table.table
+    thead
+      tr
+        th ID
+        th #{t('name')}
+        th #{t('status')}
+        th #{t('creator')}
+        th #{t('executor')}
+        th
+    tbody
+      each task in tasks
+        tr
+          td
+            a(href=`/tasks/${task.id}`) #{task.id}
+          td= task.name
+          td= task.status ? task.status.name : ''
+          td= task.creator ? task.creator.firstName : ''
+          td= task.executor ? task.executor.firstName : ''
+          td
+            if currentUser && currentUser.id === task.creatorId
+              a.btn.btn-secondary.btn-sm(href=`/tasks/${task.id}/edit`) #{t('edit')}
+              form.d-inline(action=`/tasks/${task.id}/delete` method="POST")
+                button.btn.btn-danger.btn-sm(type="submit") #{t('delete')}

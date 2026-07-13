@@ -28,5 +28,18 @@
   "statusDeleted": "Estado eliminado exitosamente",
   "accessDenied": "Acceso denegado",
   "authRequired": "Debes iniciar sesión para realizar esta acción",
-  "loggedOut": "Sesión cerrada exitosamente"
+  "loggedOut": "Sesión cerrada exitosamente",
+  "tasks": "Tareas",
+  "createTask": "Crear tarea",
+  "editTask": "Editar tarea",
+  "description": "Descripción",
+  "status": "Estado",
+  "creator": "Creador",
+  "executor": "Ejecutor",
+  "noExecutor": "Sin ejecutor",
+  "taskCreated": "Tarea creada exitosamente",
+  "taskCreateError": "Error al crear la tarea",
+  "taskUpdated": "Tarea actualizada exitosamente",
+  "taskUpdateError": "Error al actualizar la tarea",
+  "taskDeleted": "Tarea eliminada exitosamente"
 }

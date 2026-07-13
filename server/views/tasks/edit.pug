@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1= t('editTask')
+  form(action=`/tasks/${task.id}` method="POST")
+    .mb-3
+      label.form-label(for="name") #{t('name')}
+      input.form-control(type="text" name="name" id="name" value=task.name)
+    .mb-3
+      label.form-label(for="description") #{t('description')}
+      textarea.form-control(name="description" id="description")= task.description
+    .mb-3
+      label.form-label(for="statusId") #{t('status')}
+      select.form-select(name="statusId" id="statusId")
+        each status in statuses
+          option(value=status.id selected=(status.id === task.statusId)) #{status.name}
+    .mb-3
+      label.form-label(for="executorId") #{t('executor')}
+      select.form-select(name="executorId" id="executorId")
+        option(value="" selected=(!task.executorId)) #{t('noExecutor')}
+        each user in users
+          option(value=user.id selected=(user.id === task.executorId)) #{user.firstName} #{user.lastName}
+    button.btn.btn-primary(type="submit") #{t('save')}

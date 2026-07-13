@@ -16,6 +16,7 @@ import fastifyPassport from '@fastify/passport';
 import knexConfig from '../knexfile.js';
 import User from './models/User.js';
 import TaskStatus from './models/TaskStatus.js';
+import Task from './models/Task.js';
 import setupPassport from './lib/passport.js';
 
 
@@ -253,6 +254,107 @@ const createApp = async (options = {}, knexInstance = null) => {
     return reply.redirect('/statuses');
   });
 
+  app.get('/tasks', async (request, reply) => {
+    const tasks = await Task.query()
+      .withGraphFetched('[status, creator, executor]');
+    return reply.render('tasks/index.pug', { tasks });
+  });
+
+  app.get('/tasks/new', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const statuses = await TaskStatus.query();
+    const users = await User.query();
+    return reply.render('tasks/new.pug', { statuses, users });
+  });
+
+  app.get('/tasks/:id', async (request, reply) => {
+    const { id } = request.params;
+    const task = await Task.query()
+      .findById(id)
+      .withGraphFetched('[status, creator, executor]');
+    return reply.render('tasks/show.pug', { task });
+  });
+
+  app.get('/tasks/:id/edit', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const task = await Task.query().findById(id);
+    const statuses = await TaskStatus.query();
+    const users = await User.query();
+    return reply.render('tasks/edit.pug', { task, statuses, users });
+  });
+
+  app.post('/tasks', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { name, description, statusId, executorId } = request.body;
+    try {
+      await Task.query().insert({
+        name,
+        description,
+        statusId: parseInt(statusId, 10),
+        creatorId: request.user.id,
+        executorId: executorId ? parseInt(executorId, 10) : null,
+      });
+      request.flash('success', i18next.t('taskCreated'));
+      return reply.redirect('/tasks');
+    } catch (error) {
+      request.flash('error', i18next.t('taskCreateError'));
+      const statuses = await TaskStatus.query();
+      const users = await User.query();
+      return reply.render('tasks/new.pug', { statuses, users, errors: error.data });
+    }
+  });
+
+  app.post('/tasks/:id', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const { name, description, statusId, executorId } = request.body;
+    try {
+      await Task.query().patchAndFetchById(id, {
+        name,
+        description,
+        statusId: parseInt(statusId, 10),
+        executorId: executorId ? parseInt(executorId, 10) : null,
+      });
+      request.flash('success', i18next.t('taskUpdated'));
+      return reply.redirect('/tasks');
+    } catch (error) {
+      const task = await Task.query().findById(id);
+      const statuses = await TaskStatus.query();
+      const users = await User.query();
+      request.flash('error', i18next.t('taskUpdateError'));
+      return reply.render('tasks/edit.pug', { task, statuses, users, errors: error.data });
+    }
+  });
+
+  app.post('/tasks/:id/delete', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const task = await Task.query().findById(id);
+    if (task.creatorId !== request.user.id) {
+      request.flash('error', i18next.t('accessDenied'));
+      return reply.redirect('/tasks');
+    }
+    await Task.query().deleteById(id);
+    request.flash('success', i18next.t('taskDeleted'));
+    return reply.redirect('/tasks');
+  });
+  
   return app;
 };
 
