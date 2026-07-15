@@ -41,5 +41,14 @@
   "taskCreateError": "Error al crear la tarea",
   "taskUpdated": "Tarea actualizada exitosamente",
   "taskUpdateError": "Error al actualizar la tarea",
-  "taskDeleted": "Tarea eliminada exitosamente"
+  "taskDeleted": "Tarea eliminada exitosamente",
+  "labels": "Etiquetas",
+  "createLabel": "Crear etiqueta",
+  "editLabel": "Editar etiqueta",
+  "labelCreated": "Etiqueta creada exitosamente",
+  "labelCreateError": "Error al crear la etiqueta",
+  "labelUpdated": "Etiqueta actualizada exitosamente",
+  "labelUpdateError": "Error al actualizar la etiqueta",
+  "labelDeleted": "Etiqueta eliminada exitosamente",
+  "labelDeleteError": "No se puede eliminar una etiqueta asociada a una tarea"
 }

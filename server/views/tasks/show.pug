@@ -7,6 +7,11 @@ block content
   p #{t('executor')}: #{task.executor ? task.executor.firstName : ''}
   if task.description
     p #{t('description')}: #{task.description}
+  if task.labels && task.labels.length
+    p
+      strong #{t('labels')}:
+      each label in task.labels
+        span.badge.bg-secondary.me-1 #{label.name}
   if currentUser && currentUser.id === task.creatorId
     a.btn.btn-secondary(href=`/tasks/${task.id}/edit`) #{t('edit')}
     form.d-inline(action=`/tasks/${task.id}/delete` method="POST")

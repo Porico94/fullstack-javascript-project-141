@@ -20,4 +20,9 @@ block content
         option(value="") #{t('noExecutor')}
         each user in users
           option(value=user.id) #{user.firstName} #{user.lastName}
+    .mb-3
+      label.form-label(for="labelIds") #{t('labels')}
+      select.form-select(name="labelIds" id="labelIds" multiple)
+        each label in labels
+          option(value=label.id) #{label.name}
     button.btn.btn-primary(type="submit") #{t('createTask')}

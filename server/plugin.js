@@ -17,6 +17,7 @@ import knexConfig from '../knexfile.js';
 import User from './models/User.js';
 import TaskStatus from './models/TaskStatus.js';
 import Task from './models/Task.js';
+import Label from './models/Label.js';
 import setupPassport from './lib/passport.js';
 
 
@@ -256,7 +257,7 @@ const createApp = async (options = {}, knexInstance = null) => {
 
   app.get('/tasks', async (request, reply) => {
     const tasks = await Task.query()
-      .withGraphFetched('[status, creator, executor]');
+      .withGraphFetched('[status, creator, executor, labels]');
     return reply.render('tasks/index.pug', { tasks });
   });
 
@@ -267,14 +268,15 @@ const createApp = async (options = {}, knexInstance = null) => {
     }
     const statuses = await TaskStatus.query();
     const users = await User.query();
-    return reply.render('tasks/new.pug', { statuses, users });
+    const labels = await Label.query();
+    return reply.render('tasks/new.pug', { statuses, users, labels });
   });
 
   app.get('/tasks/:id', async (request, reply) => {
     const { id } = request.params;
     const task = await Task.query()
       .findById(id)
-      .withGraphFetched('[status, creator, executor]');
+      .withGraphFetched('[status, creator, executor, labels]');
     return reply.render('tasks/show.pug', { task });
   });
 
@@ -284,10 +286,13 @@ const createApp = async (options = {}, knexInstance = null) => {
       return reply.redirect('/session/new');
     }
     const { id } = request.params;
-    const task = await Task.query().findById(id);
+    const task = await Task.query()
+      .findById(id)
+      .withGraphFetched('[labels]');
     const statuses = await TaskStatus.query();
     const users = await User.query();
-    return reply.render('tasks/edit.pug', { task, statuses, users });
+    const labels = await Label.query();
+    return reply.render('tasks/edit.pug', { task, statuses, users, labels });
   });
 
   app.post('/tasks', async (request, reply) => {
@@ -295,22 +300,33 @@ const createApp = async (options = {}, knexInstance = null) => {
       request.flash('error', i18next.t('authRequired'));
       return reply.redirect('/session/new');
     }
-    const { name, description, statusId, executorId } = request.body;
+    const { name, description, statusId, executorId, labelIds } = request.body;
     try {
-      await Task.query().insert({
+      const task = await Task.query().insert({
         name,
         description,
         statusId: parseInt(statusId, 10),
         creatorId: request.user.id,
         executorId: executorId ? parseInt(executorId, 10) : null,
       });
+
+      if (labelIds) {
+        const ids = Array.isArray(labelIds) ? labelIds : [labelIds];
+        for (const labelId of ids) {
+          await task.$relatedQuery('labels').relate(parseInt(labelId, 10));
+        }
+      }
+
       request.flash('success', i18next.t('taskCreated'));
       return reply.redirect('/tasks');
     } catch (error) {
+      console.log('ERROR AL CREAR TAREA:', error.message);
+      console.log('STACK:', error.stack);
       request.flash('error', i18next.t('taskCreateError'));
       const statuses = await TaskStatus.query();
       const users = await User.query();
-      return reply.render('tasks/new.pug', { statuses, users, errors: error.data });
+      const labels = await Label.query();
+      return reply.render('tasks/new.pug', { statuses, users, labels, errors: error.data });
     }
   });
 
@@ -320,22 +336,32 @@ const createApp = async (options = {}, knexInstance = null) => {
       return reply.redirect('/session/new');
     }
     const { id } = request.params;
-    const { name, description, statusId, executorId } = request.body;
+    const { name, description, statusId, executorId, labelIds } = request.body;
     try {
-      await Task.query().patchAndFetchById(id, {
+      const task = await Task.query().patchAndFetchById(id, {
         name,
         description,
         statusId: parseInt(statusId, 10),
         executorId: executorId ? parseInt(executorId, 10) : null,
       });
+
+      await task.$relatedQuery('labels').unrelate();
+      if (labelIds) {
+        const ids = Array.isArray(labelIds) ? labelIds : [labelIds];
+        for (const labelId of ids) {
+          await task.$relatedQuery('labels').relate(parseInt(labelId, 10));
+        }
+      }
+
       request.flash('success', i18next.t('taskUpdated'));
       return reply.redirect('/tasks');
     } catch (error) {
       const task = await Task.query().findById(id);
       const statuses = await TaskStatus.query();
       const users = await User.query();
+      const labels = await Label.query();
       request.flash('error', i18next.t('taskUpdateError'));
-      return reply.render('tasks/edit.pug', { task, statuses, users, errors: error.data });
+      return reply.render('tasks/edit.pug', { task, statuses, users, labels, errors: error.data });
     }
   });
 
@@ -353,6 +379,78 @@ const createApp = async (options = {}, knexInstance = null) => {
     await Task.query().deleteById(id);
     request.flash('success', i18next.t('taskDeleted'));
     return reply.redirect('/tasks');
+  });
+
+  app.get('/labels', async (request, reply) => {
+    const labels = await Label.query();
+    return reply.render('labels/index.pug', { labels });
+  });
+
+  app.get('/labels/new', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    return reply.render('labels/new.pug');
+  });
+
+  app.post('/labels', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { name } = request.body;
+    try {
+      await Label.query().insert({ name });
+      request.flash('success', i18next.t('labelCreated'));
+      return reply.redirect('/labels');
+    } catch (error) {
+      request.flash('error', i18next.t('labelCreateError'));
+      return reply.render('labels/new.pug', { errors: error.data });
+    }
+  });
+
+  app.get('/labels/:id/edit', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const label = await Label.query().findById(id);
+    return reply.render('labels/edit.pug', { label });
+  });
+
+  app.post('/labels/:id', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    const { name } = request.body;
+    try {
+      await Label.query().patchAndFetchById(id, { name });
+      request.flash('success', i18next.t('labelUpdated'));
+      return reply.redirect('/labels');
+    } catch (error) {
+      const label = await Label.query().findById(id);
+      request.flash('error', i18next.t('labelUpdateError'));
+      return reply.render('labels/edit.pug', { label, errors: error.data });
+    }
+  });
+
+  app.post('/labels/:id/delete', async (request, reply) => {
+    if (!request.user) {
+      request.flash('error', i18next.t('authRequired'));
+      return reply.redirect('/session/new');
+    }
+    const { id } = request.params;
+    try {
+      await Label.query().deleteById(id);
+      request.flash('success', i18next.t('labelDeleted'));
+    } catch (error) {
+      request.flash('error', i18next.t('labelDeleteError'));
+    }
+    return reply.redirect('/labels');
   });
   
   return app;

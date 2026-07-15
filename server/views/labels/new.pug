@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1= t('createLabel')
+  form(action="/labels" method="POST")
+    .mb-3
+      label.form-label(for="name") #{t('name')}
+      input.form-control(type="text" name="name" id="name")
+    button.btn.btn-primary(type="submit") #{t('createLabel')}

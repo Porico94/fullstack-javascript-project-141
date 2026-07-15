@@ -12,6 +12,7 @@ block content
         th #{t('status')}
         th #{t('creator')}
         th #{t('executor')}
+        th #{t('labels')}
         th
     tbody
       each task in tasks
@@ -22,6 +23,9 @@ block content
           td= task.status ? task.status.name : ''
           td= task.creator ? task.creator.firstName : ''
           td= task.executor ? task.executor.firstName : ''
+          td
+            each label in (task.labels || [])
+              span.badge.bg-secondary.me-1 #{label.name}
           td
             if currentUser && currentUser.id === task.creatorId
               a.btn.btn-secondary.btn-sm(href=`/tasks/${task.id}/edit`) #{t('edit')}

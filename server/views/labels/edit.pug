@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+  h1= t('editLabel')
+  form(action=`/labels/${label.id}` method="POST")
+    .mb-3
+      label.form-label(for="name") #{t('name')}
+      input.form-control(type="text" name="name" id="name" value=label.name)
+    button.btn.btn-primary(type="submit") #{t('save')}
