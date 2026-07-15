@@ -50,5 +50,9 @@
   "labelUpdated": "Etiqueta actualizada exitosamente",
   "labelUpdateError": "Error al actualizar la etiqueta",
   "labelDeleted": "Etiqueta eliminada exitosamente",
-  "labelDeleteError": "No se puede eliminar una etiqueta asociada a una tarea"
+  "labelDeleteError": "No se puede eliminar una etiqueta asociada a una tarea",
+  "all": "Todos",
+  "myTasks": "Mis tareas",
+  "filter": "Filtrar",  
+  "clearFilters": "Limpiar filtros"
 }

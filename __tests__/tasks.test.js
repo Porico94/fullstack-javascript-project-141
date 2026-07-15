@@ -258,4 +258,49 @@ describe('POST /tasks/:id/delete', () => {
     });
     expect(listResponse.body).toContain('Tarea de prueba');
   });
+
+  describe('GET /tasks con filtros', () => {
+  test('filtra tareas por estado', async () => {
+    await createUser();
+    const cookie = await loginAs('pool@test.com', 'password123');
+    const statusId = await createStatus(cookie);
+    await createTask(cookie, statusId);
+
+    const response = await app.inject({
+      method: 'GET',
+      url: `/tasks?statusId=${statusId}`,
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toContain('Tarea de prueba');
+  });
+
+  test('filtra tareas por estado inexistente devuelve lista vacía', async () => {
+    await createUser();
+    const cookie = await loginAs('pool@test.com', 'password123');
+    const statusId = await createStatus(cookie);
+    await createTask(cookie, statusId);
+
+    const response = await app.inject({
+      method: 'GET',
+      url: '/tasks?statusId=9999',
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).not.toContain('Tarea de prueba');
+  });
+
+  test('filtra tareas del usuario actual', async () => {
+    await createUser();
+    const cookie = await loginAs('pool@test.com', 'password123');
+    const statusId = await createStatus(cookie);
+    await createTask(cookie, statusId);
+
+    const response = await app.inject({
+      method: 'GET',
+      url: '/tasks?isCreatorUser=1',
+      headers: { cookie },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toContain('Tarea de prueba');
+  });
+});
 });

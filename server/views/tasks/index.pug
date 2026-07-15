@@ -4,6 +4,36 @@ block content
   h1= t('tasks')
   if currentUser
     a.btn.btn-primary.mb-3(href="/tasks/new") #{t('createTask')}
+
+  form.mb-4(action="/tasks" method="GET")
+    .row.g-3
+      .col-md-3
+        label.form-label(for="statusId") #{t('status')}
+        select.form-select(name="statusId" id="statusId")
+          option(value="") #{t('all')}
+          each status in statuses
+            option(value=status.id selected=(filterValues.statusId == status.id)) #{status.name}
+      .col-md-3
+        label.form-label(for="executorId") #{t('executor')}
+        select.form-select(name="executorId" id="executorId")
+          option(value="") #{t('all')}
+          each user in users
+            option(value=user.id selected=(filterValues.executorId == user.id)) #{user.firstName} #{user.lastName}
+      .col-md-3
+        label.form-label(for="labelId") #{t('labels')}
+        select.form-select(name="labelId" id="labelId")
+          option(value="") #{t('all')}
+          each label in labels
+            option(value=label.id selected=(filterValues.labelId == label.id)) #{label.name}
+      .col-md-3.d-flex.align-items-end
+        if currentUser
+          .form-check.mb-2
+            input.form-check-input(type="checkbox" name="isCreatorUser" id="isCreatorUser" value="1" checked=(filterValues.isCreatorUser === '1'))
+            label.form-check-label(for="isCreatorUser") #{t('myTasks')}
+    .mt-3
+      button.btn.btn-primary(type="submit") #{t('filter')}
+      a.btn.btn-secondary.ms-2(href="/tasks") #{t('clearFilters')}
+
   table.table
     thead
       tr

@@ -256,9 +256,39 @@ const createApp = async (options = {}, knexInstance = null) => {
   });
 
   app.get('/tasks', async (request, reply) => {
-    const tasks = await Task.query()
-      .withGraphFetched('[status, creator, executor, labels]');
-    return reply.render('tasks/index.pug', { tasks });
+    const { statusId, executorId, labelId, isCreatorUser } = request.query;
+
+    let tasksQuery = Task.query()
+      .withGraphJoined('[status, creator, executor, labels]');
+
+    if (statusId) {
+      tasksQuery = tasksQuery.where('tasks.statusId', parseInt(statusId, 10));
+    }
+
+    if (executorId) {
+      tasksQuery = tasksQuery.where('tasks.executorId', parseInt(executorId, 10));
+    }
+
+    if (labelId) {
+      tasksQuery = tasksQuery.where('labels.id', parseInt(labelId, 10));
+    }
+
+    if (isCreatorUser && request.user) {
+      tasksQuery = tasksQuery.where('tasks.creatorId', request.user.id);
+    }
+
+    const tasks = await tasksQuery;
+    const statuses = await TaskStatus.query();
+    const users = await User.query();
+    const labels = await Label.query();
+
+    return reply.render('tasks/index.pug', {
+      tasks,
+      statuses,
+      users,
+      labels,
+      filterValues: request.query,
+    });
   });
 
   app.get('/tasks/new', async (request, reply) => {
