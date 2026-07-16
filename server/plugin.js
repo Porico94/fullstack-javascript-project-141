@@ -19,6 +19,7 @@ import TaskStatus from './models/TaskStatus.js';
 import Task from './models/Task.js';
 import Label from './models/Label.js';
 import setupPassport from './lib/passport.js';
+import Rollbar from 'rollbar';
 
 
 const { Model } = objection;
@@ -28,6 +29,18 @@ const __dirname = path.dirname(__filename);
 
 const createApp = async (options = {}, knexInstance = null) => {
   const app = fastify(options);
+
+  const rollbar = new Rollbar({
+    accessToken: process.env.ROLLBAR_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+    environment: process.env.NODE_ENV || 'development',
+  });
+
+  app.setErrorHandler((error, request, reply) => {
+    rollbar.error(error, request);
+    reply.status(500).send({ error: 'Internal Server Error' });
+  });
 
   const env = process.env.NODE_ENV || 'development';
   const db = knexInstance || knex(knexConfig[env]);
@@ -349,9 +362,7 @@ const createApp = async (options = {}, knexInstance = null) => {
 
       request.flash('success', i18next.t('taskCreated'));
       return reply.redirect('/tasks');
-    } catch (error) {
-      console.log('ERROR AL CREAR TAREA:', error.message);
-      console.log('STACK:', error.stack);
+    } catch (error) {      
       request.flash('error', i18next.t('taskCreateError'));
       const statuses = await TaskStatus.query();
       const users = await User.query();
