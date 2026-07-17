@@ -5,7 +5,7 @@
   "description": "Hexlet fullstack project",
   "main": "./server/plugin.js",
   "engines": {
-    "node": ">=20.x"
+    "node": "20.x"
   },
   "scripts": {
     "prebuild": "rm -rf dist",
