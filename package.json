@@ -14,7 +14,7 @@
     "start": "fastify start server/plugin.js -l info -P -o"
   },
   "jest": {
-    "modulePathIgnePatterns": [
+    "modulePathIgnorePatterns": [
       "<rootDir>/__tests__/helpers/"
     ],
     "setupFiles": [
@@ -37,7 +37,7 @@
     "@popperjs/core": "2.11.8",
     "ajv": "8.20.0",
     "bcrypt": "6.0.0",
-    "better-sqlite3": "12.11.1",
+    "better-sqlite3": "12.10.0",
     "bootstrap": "^5.3.8",
     "fastify": "^5.8.2",
     "fastify-cli": "^7.4.1",
