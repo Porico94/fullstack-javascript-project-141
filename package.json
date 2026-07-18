@@ -5,7 +5,7 @@
   "description": "Hexlet fullstack project",
   "main": "./server/plugin.js",
   "engines": {
-    "node": "20.x"
+    "node": "18.x"
   },
   "scripts": {
     "prebuild": "rm -rf dist",
@@ -14,7 +14,7 @@
     "start": "fastify start server/plugin.js -l info -P -o"
   },
   "jest": {
-    "modulePathIgnorePatterns": [
+    "modulePathIgnePatterns": [
       "<rootDir>/__tests__/helpers/"
     ],
     "setupFiles": [
