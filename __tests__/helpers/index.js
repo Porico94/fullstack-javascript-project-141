@@ -1,6 +1,6 @@
 import knex from 'knex';
 import { Model } from 'objection';
-import knexConfig from '../../knexfile.js';
+import * as knexConfig from '../../knexfile.js';
 import createApp from '../../server/plugin.js';
 
 export const prepareDB = async () => {

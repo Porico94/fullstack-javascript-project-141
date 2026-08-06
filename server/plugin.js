@@ -13,7 +13,7 @@ import objection from 'objection';
 import fastifyCookie from '@fastify/cookie';
 import fastifySession from '@fastify/session';
 import fastifyPassport from '@fastify/passport';
-import knexConfig from '../knexfile.js';
+import * as knexConfig from '../knexfile.js';
 import User from './models/User.js';
 import TaskStatus from './models/TaskStatus.js';
 import Task from './models/Task.js';
@@ -36,7 +36,7 @@ const createApp = async (options = {}, knexInstance = null) => {
   });
 
   const env = process.env.NODE_ENV || 'development';
-  const db = knexInstance || knex(knexConfig[env]);
+  const db = knexInstance || knex(knexConfig[env] || knexConfig.development);
   Model.knex(db);
 
   await i18next
