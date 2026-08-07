@@ -49,10 +49,15 @@ make start
 ### Variables de entorno
 
 NODE_ENV=development
+
 PORT=5000
+
 SECRET_KEY=tu_clave_secreta
+
 DATABASE_URL=postgresql://... (solo para producción)
+
 ROLLBAR_ACCESS_TOKEN=tu_token
+
 ROLLBAR_ENVIRONMENT=production
 
 ### Tests
