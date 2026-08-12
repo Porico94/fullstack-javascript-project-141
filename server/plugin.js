@@ -58,8 +58,17 @@ const createApp = async (options = {}, knexInstance = null) => {
 
   app.register(fastifyCookie);
 
+  const defaultSessionSecret = 'supersecretkey-development-only-change-in-production';
+
+  const configuredSessionSecret = process.env.SECRET_KEY;
+
+  const sessionSecret = configuredSessionSecret
+     && Buffer.byteLength(configuredSessionSecret, 'utf8') >= 32
+    ? configuredSessionSecret
+    : defaultSessionSecret;
+
   app.register(fastifySession, {
-    secret: process.env.SECRET_KEY || 'supersecretkey-development-only-change-in-production',
+    secret: sessionSecret,
     cookie: {
       secure: false,
     },
