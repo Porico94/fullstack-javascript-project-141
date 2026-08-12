@@ -37,6 +37,11 @@ const createApp = async (options = {}, knexInstance = null) => {
 
   const env = process.env.NODE_ENV || 'development';
   const db = knexInstance || knex(knexConfig[env] || knexConfig.development);
+
+  app.decorate('objection', {
+    knex: db,
+  });
+  
   Model.knex(db);
 
   await i18next
