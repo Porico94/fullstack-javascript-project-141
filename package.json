@@ -42,7 +42,7 @@
     "fastify-cli": "^7.4.1",
     "fastify-error-page": "^4.0.0",
     "fastify-method-override": "^1.5.10",
-    "fastify-objectionjs": "^2.0.1",
+    "fastify-objectionjs": "1.0.0",
     "fastify-reverse-routes": "^3.0.0",
     "i18next": "25.10.10",
     "i18next-fs-backend": "2.6.6",
