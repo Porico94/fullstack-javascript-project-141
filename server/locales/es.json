@@ -30,7 +30,7 @@
   "statusDeleted": "Estado eliminado exitosamente",
   "accessDenied": "Acceso denegado",
   "authRequired": "Debes iniciar sesión para realizar esta acción",
-  "loggedOut": "Sesión cerrada exitosamente",
+  "loggedOut": "Has cerrado sesión",
   "tasks": "Tareas",
   "createTask": "Crear tarea",
   "editTask": "Editar tarea",

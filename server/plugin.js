@@ -197,7 +197,9 @@ const createApp = async (options = {}, knexInstance = null) => {
   app.post(
     '/session',
     {
-      preValidation: fastifyPassport.authenticate('local'),
+      preValidation: fastifyPassport.authenticate('local', {
+        failureRedirect: '/session/new',
+      }),
     },
     async (request, reply) => {
       request.flash('success', i18next.t('loggedIn'));
