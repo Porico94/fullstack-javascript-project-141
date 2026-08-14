@@ -120,16 +120,16 @@ describe('POST /session', () => {
     expect(response.headers.location).toBe('/');
   });
 
-  test('login fallido redirige a /session/new', async () => {
+  test('login fallido no autentica y muestra el formulario con error', async () => {
     const response = await app.inject({
       method: 'POST',
       url: '/session',
       payload: { email: 'noexiste@test.com', password: 'wrongpass' },
     });
-    expect(response.statusCode).toBe(302);
-    expect(response.headers.location).toBe('/session/new');
+    expect(response.statusCode).toBe(401);
+    expect(response.body).toContain('invalid-feedback');
+    });
   });
-});
 
 describe('GET /users/:id/edit', () => {
   test('usuario logueado ve su formulario de edición', async () => {

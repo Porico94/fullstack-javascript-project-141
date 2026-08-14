@@ -194,18 +194,25 @@ const createApp = async (options = {}, knexInstance = null) => {
     return reply.render('session/new.pug');
   });
 
-  app.post(
-    '/session',
-    {
-      preValidation: fastifyPassport.authenticate('local', {
-        failureRedirect: '/session/new',
-      }),
-    },
-    async (request, reply) => {
+  app.post('/session', async (request, reply) => {
+  await fastifyPassport.authenticate(
+    'local',
+    async (req, res, err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      if (!user) {
+        reply.code(401);
+        return reply.render('session/new.pug', { signInError: true });
+      }
+
+      await request.logIn(user);
       request.flash('success', i18next.t('loggedIn'));
       return reply.redirect('/');
     },
-  );
+  )(request, reply);
+});
 
   app.post('/session/delete', async (request, reply) => {
     await request.logOut();
