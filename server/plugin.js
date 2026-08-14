@@ -187,7 +187,7 @@ const createApp = async (options = {}, knexInstance = null) => {
     await User.query().deleteById(id);
     await request.logOut();
     request.flash('success', i18next.t('userDeleted'));
-    return reply.redirect('/');
+    return reply.redirect('/users');
   });
 
   app.get('/session/new', async (request, reply) => {

@@ -22,7 +22,7 @@
   "userCreateError": "Error al crear el usuario",
   "userUpdated": "Usuario actualizado con éxito",
   "userUpdateError": "Error al actualizar el usuario",
-  "userDeleted": "Usuario eliminado exitosamente",
+  "userDeleted": "Usuario eliminado con éxito",
   "statusCreated": "Estado creado exitosamente",
   "statusCreateError": "Error al crear el estado",
   "statusUpdated": "Estado actualizado exitosamente",

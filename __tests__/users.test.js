@@ -182,7 +182,7 @@ describe('POST /users/:id/delete', () => {
     });
 
     expect(response.statusCode).toBe(302);
-    expect(response.headers.location).toBe('/');
+    expect(response.headers.location).toBe('/users');
 
     const { Model } = await import('objection');
     const User = Model.query.bind(Model);
