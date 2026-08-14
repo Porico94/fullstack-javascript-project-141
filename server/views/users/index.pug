@@ -6,16 +6,14 @@ block content
     thead
       tr
         th ID
-        th #{t('firstName')}
-        th #{t('lastName')}
+        th #{t('name')}
         th Email
         th
     tbody
       each user in users
         tr
           td= user.id
-          td= user.firstName
-          td= user.lastName
+          td #{user.firstName} #{user.lastName}
           td= user.email
           td
             a.btn.btn-secondary.btn-sm(href=`/users/${user.id}/edit`) #{t('edit')}
