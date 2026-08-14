@@ -16,7 +16,7 @@
   "editStatus": "Editar estado",
   "createStatus": "Crear estado",
   "save": "Guardar",
-  "edit": "Editar",
+  "edit": "Actualizar",
   "delete": "Eliminar",
   "userCreated": "Usuario creado exitosamente",
   "userCreateError": "Error al crear el usuario",
