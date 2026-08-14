@@ -47,7 +47,7 @@ const createStatus = async (cookie) => {
     method: 'POST',
     url: '/statuses',
     headers: { cookie },
-    payload: { name: 'Nuevo' },
+    payload: { data: {name: 'Nuevo' }},
   });
   const response = await app.inject({
     method: 'GET',

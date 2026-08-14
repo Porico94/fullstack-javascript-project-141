@@ -81,7 +81,7 @@ describe('POST /statuses', () => {
       method: 'POST',
       url: '/statuses',
       headers: { cookie },
-      payload: { name: 'En progreso' },
+      payload: { data: {name: 'En progreso' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/statuses');
@@ -91,7 +91,7 @@ describe('POST /statuses', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/statuses',
-      payload: { name: 'En progreso' },
+      payload: { data: {name: 'En progreso' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/session/new');
@@ -106,7 +106,7 @@ describe('GET /statuses/:id/edit', () => {
       method: 'POST',
       url: '/statuses',
       headers: { cookie },
-      payload: { name: 'Nuevo' },
+      payload: { data: {name: 'Nuevo' }},
     });
     const statusesResponse = await app.inject({
       method: 'GET',
@@ -140,7 +140,7 @@ describe('POST /statuses/:id', () => {
       method: 'POST',
       url: '/statuses',
       headers: { cookie },
-      payload: { name: 'Nuevo' },
+      payload: { data: {name: 'Nuevo' }},
     });
     const statusesResponse = await app.inject({
       method: 'GET',
@@ -152,7 +152,7 @@ describe('POST /statuses/:id', () => {
       method: 'POST',
       url: `/statuses/${statusId}`,
       headers: { cookie },
-      payload: { name: 'Actualizado' },
+      payload: { data: {name: 'Actualizado' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/statuses');
@@ -167,7 +167,7 @@ describe('POST /statuses/:id/delete', () => {
       method: 'POST',
       url: '/statuses',
       headers: { cookie },
-      payload: { name: 'Nuevo' },
+      payload: { data: {name: 'Nuevo' }},
     });
     const statusesResponse = await app.inject({
       method: 'GET',

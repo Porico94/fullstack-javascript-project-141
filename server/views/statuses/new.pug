@@ -4,6 +4,8 @@ block content
   h1= t('createStatus')
   form(action="/statuses" method="POST")
     .mb-3
-      label.form-label(for="name") #{t('name')}
-      input.form-control(type="text" name="name" id="name")
-    button.btn.btn-primary(type="submit") #{t('createStatus')}
+      label.form-label(for="data_name") #{t('name')}
+      input.form-control(class=errors && errors.name ? "is-invalid" : "" type="text" name="data[name]" id="data_name")
+      if errors && errors.name
+        .invalid-feedback= errors.name[0].message
+    button.btn.btn-primary(type="submit") #{t('create')}
