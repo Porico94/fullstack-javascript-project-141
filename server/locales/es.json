@@ -20,7 +20,7 @@
   "delete": "Eliminar",
   "userCreated": "Usuario registrado con éxito",
   "userCreateError": "Error al crear el usuario",
-  "userUpdated": "Usuario actualizado exitosamente",
+  "userUpdated": "Usuario actualizado con éxito",
   "userUpdateError": "Error al actualizar el usuario",
   "userDeleted": "Usuario eliminado exitosamente",
   "statusCreated": "Estado creado exitosamente",
