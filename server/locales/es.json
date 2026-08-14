@@ -18,7 +18,7 @@
   "save": "Guardar",
   "edit": "Actualizar",
   "delete": "Eliminar",
-  "userCreated": "Usuario creado exitosamente",
+  "userCreated": "Usuario registrado con éxito",
   "userCreateError": "Error al crear el usuario",
   "userUpdated": "Usuario actualizado exitosamente",
   "userUpdateError": "Error al actualizar el usuario",

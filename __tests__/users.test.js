@@ -77,7 +77,7 @@ describe('POST /users', () => {
       },
     });
     expect(response.statusCode).toBe(302);
-    expect(response.headers.location).toBe('/users');
+    expect(response.headers.location).toBe('/');
   });
 
   test('no crea usuario con email duplicado', async () => {

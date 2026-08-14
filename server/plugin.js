@@ -169,7 +169,7 @@ const createApp = async (options = {}, knexInstance = null) => {
       user.password = data.password;
       await User.query().insert(user);
       request.flash('success', i18next.t('userCreated'));
-      return reply.redirect('/users');
+      return reply.redirect('/');
     } catch (error) {
       request.flash('error', i18next.t('userCreateError'));
       return reply.render('users/new.pug', { user: data, errors: error.data });
