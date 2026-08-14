@@ -19,7 +19,7 @@
   "edit": "Actualizar",
   "delete": "Eliminar",
   "userCreated": "Usuario registrado con éxito",
-  "userCreateError": "Error al crear el usuario",
+  "userCreateError": "No se pudo registrar el usuario",
   "userUpdated": "Usuario actualizado con éxito",
   "userUpdateError": "Error al actualizar el usuario",
   "userDeleted": "Usuario eliminado con éxito",
@@ -56,5 +56,9 @@
   "all": "Todos",
   "myTasks": "Mis tareas",
   "filter": "Filtrar",  
-  "clearFilters": "Limpiar filtros"
+  "clearFilters": "Limpiar filtros",
+  "firstNameRequired": "El nombre es obligatorio",
+  "lastNameRequired": "El apellido es obligatorio",
+  "emailRequired": "El correo electrónico es obligatorio",
+  "passwordRequired": "La contraseña es obligatoria"
 }

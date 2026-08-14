@@ -21,6 +21,14 @@ import Label from './models/Label.js';
 import setupPassport from './lib/passport.js';
 import rollbar from './rollbar.js';
 
+const validateUserData = (data) => {
+  const errors = {};
+  if (!data.firstName) errors.firstName = [{ message: i18next.t('firstNameRequired') }];
+  if (!data.lastName) errors.lastName = [{ message: i18next.t('lastNameRequired') }];
+  if (!data.email) errors.email = [{ message: i18next.t('emailRequired') }];
+  if (!data.password) errors.password = [{ message: i18next.t('passwordRequired') }];
+  return errors;
+};
 
 const { Model } = objection;
 
@@ -161,6 +169,14 @@ const createApp = async (options = {}, knexInstance = null) => {
 
   app.post('/users', async (request, reply) => {
     const { data } = request.body;
+
+    const validationErrors = validateUserData(data);
+    if (Object.keys(validationErrors).length > 0) {
+      request.flash('error', i18next.t('userCreateError'));
+      reply.code(422);
+      return reply.render('users/new.pug', { user: data, errors: validationErrors });
+    }
+
     try {
       const user = User.fromJson({}, { skipValidation: true });
       user.firstName = data.firstName;

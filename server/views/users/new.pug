@@ -5,14 +5,22 @@ block content
   form(action="/users" method="POST")
     .mb-3
       label.form-label(for="data_firstName") #{t('firstName')}
-      input.form-control(type="text" name="data[firstName]" id="data_firstName")
+      input.form-control(class=errors && errors.firstName ? "is-invalid" : "" type="text" name="data[firstName]" id="data_firstName" value=user ? user.firstName : "")
+      if errors && errors.firstName
+        .invalid-feedback= errors.firstName[0].message
     .mb-3
       label.form-label(for="data_lastName") #{t('lastName')}
-      input.form-control(type="text" name="data[lastName]" id="data_lastName")
+      input.form-control(class=errors && errors.lastName ? "is-invalid" : "" type="text" name="data[lastName]" id="data_lastName" value=user ? user.lastName : "")
+      if errors && errors.lastName
+        .invalid-feedback= errors.lastName[0].message
     .mb-3
       label.form-label(for="data_email") Correo electrónico
-      input.form-control(type="email" name="data[email]" id="data_email")
+      input.form-control(class=errors && errors.email ? "is-invalid" : "" type="email" name="data[email]" id="data_email" value=user ? user.email : "")
+      if errors && errors.email
+        .invalid-feedback= errors.email[0].message
     .mb-3
       label.form-label(for="data_password") #{t('password')}
-      input.form-control(type="password" name="data[password]" id="data_password")
+      input.form-control(class=errors && errors.password ? "is-invalid" : "" type="password" name="data[password]" id="data_password")
+      if errors && errors.password
+        .invalid-feedback= errors.password[0].message
     button.btn.btn-primary(type="submit") #{t('save')}
