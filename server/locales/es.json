@@ -62,5 +62,6 @@
   "emailRequired": "El correo electrónico es obligatorio",
   "passwordRequired": "La contraseña es obligatoria",
   "create": "Crear",
-  "nameRequired": "El nombre es obligatorio"
+  "nameRequired": "El nombre es obligatorio",
+  "show": "Mostrar"
 }
