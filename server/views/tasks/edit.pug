@@ -4,25 +4,25 @@ block content
   h1= t('editTask')
   form(action=`/tasks/${task.id}` method="POST")
     .mb-3
-      label.form-label(for="name") #{t('name')}
-      input.form-control(type="text" name="name" id="name" value=task.name)
+      label.form-label(for="data_name") #{t('name')}
+      input.form-control(type="text" name="data[name]" id="data_name" value=task.name)
     .mb-3
-      label.form-label(for="description") #{t('description')}
-      textarea.form-control(name="description" id="description")= task.description
+      label.form-label(for="data_description") #{t('description')}
+      textarea.form-control(name="data[description]" id="data_description")= task.description
     .mb-3
-      label.form-label(for="statusId") #{t('status')}
-      select.form-select(name="statusId" id="statusId")
+      label.form-label(for="data_statusId") #{t('status')}
+      select.form-select(name="data[statusId]" id="data_statusId")
         each status in statuses
           option(value=status.id selected=(status.id === task.statusId)) #{status.name}
     .mb-3
-      label.form-label(for="executorId") #{t('executor')}
-      select.form-select(name="executorId" id="executorId")
+      label.form-label(for="data_executorId") #{t('executor')}
+      select.form-select(name="data[executorId]" id="data_executorId")
         option(value="" selected=(!task.executorId)) #{t('noExecutor')}
         each user in users
           option(value=user.id selected=(user.id === task.executorId)) #{user.firstName} #{user.lastName}
     .mb-3
-      label.form-label(for="labelIds") #{t('labels')}
-      select.form-select(name="labelIds" id="labelIds" multiple)
+      label.form-label(for="data_labelIds") #{t('labels')}
+      select.form-select(name="data[labelIds][]" id="data_labelIds" multiple)
         each label in labels
           option(value=label.id selected=(task.labels && task.labels.some(l => l.id === label.id))) #{label.name}
-    button.btn.btn-primary(type="submit") #{t('save')}
+    button.btn.btn-primary(type="submit") #{t('edit')}

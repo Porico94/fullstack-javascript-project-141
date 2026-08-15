@@ -381,7 +381,8 @@ const createApp = async (options = {}, knexInstance = null) => {
       request.flash('error', i18next.t('authRequired'));
       return reply.redirect('/session/new');
     }
-    const { name, description, statusId, executorId, labelIds } = request.body;
+    const { data } = request.body;
+    const { name, description, statusId, executorId, labelIds } = data;
     try {
       const task = await Task.query().insert({
         name,
@@ -400,7 +401,7 @@ const createApp = async (options = {}, knexInstance = null) => {
 
       request.flash('success', i18next.t('taskCreated'));
       return reply.redirect('/tasks');
-    } catch (error) {      
+    } catch (error) {
       request.flash('error', i18next.t('taskCreateError'));
       const statuses = await TaskStatus.query();
       const users = await User.query();
@@ -415,7 +416,8 @@ const createApp = async (options = {}, knexInstance = null) => {
       return reply.redirect('/session/new');
     }
     const { id } = request.params;
-    const { name, description, statusId, executorId, labelIds } = request.body;
+    const { data } = request.body;
+    const { name, description, statusId, executorId, labelIds } = data;
     try {
       const task = await Task.query().patchAndFetchById(id, {
         name,

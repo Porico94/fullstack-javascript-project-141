@@ -63,9 +63,11 @@ const createTask = async (cookie, statusId) => {
     url: '/tasks',
     headers: { cookie },
     payload: {
-      name: 'Tarea de prueba',
-      description: 'Descripción de prueba',
-      statusId,
+      data: {
+        name: 'Tarea de prueba',
+        description: 'Descripción de prueba',
+        statusId,
+      },      
     },
   });
   const response = await app.inject({
@@ -118,9 +120,11 @@ describe('POST /tasks', () => {
       url: '/tasks',
       headers: { cookie },
       payload: {
-        name: 'Nueva tarea',
-        description: 'Descripción',
-        statusId,
+        data: {
+          name: 'Nueva tarea',
+          description: 'Descripción',
+          statusId,
+        },
       },
     });
     expect(response.statusCode).toBe(302);
@@ -187,8 +191,10 @@ describe('POST /tasks/:id', () => {
       url: `/tasks/${taskId}`,
       headers: { cookie },
       payload: {
-        name: 'Tarea actualizada',
-        statusId,
+        data: {
+          name: 'Tarea actualizada',
+          statusId,
+        },
       },
     });
     expect(response.statusCode).toBe(302);
