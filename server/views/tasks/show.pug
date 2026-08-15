@@ -3,8 +3,8 @@ extends ../layout
 block content
   h1= task.name
   p #{t('status')}: #{task.status ? task.status.name : ''}
-  p #{t('creator')}: #{task.creator ? task.creator.firstName : ''}
-  p #{t('executor')}: #{task.executor ? task.executor.firstName : ''}
+  p #{t('creator')}: #{task.creator ? `${task.creator.firstName} ${task.creator.lastName}` : ''}
+  p #{t('executor')}: #{task.executor ? `${task.executor.firstName} ${task.executor.lastName}` : ''}
   if task.description
     p #{t('description')}: #{task.description}
   if task.labels && task.labels.length
