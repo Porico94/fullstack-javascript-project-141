@@ -478,7 +478,8 @@ const createApp = async (options = {}, knexInstance = null) => {
       request.flash('error', i18next.t('authRequired'));
       return reply.redirect('/session/new');
     }
-    const { name } = request.body;
+    const { data } = request.body;
+    const { name } = data;
     try {
       await Label.query().insert({ name });
       request.flash('success', i18next.t('labelCreated'));
@@ -505,7 +506,8 @@ const createApp = async (options = {}, knexInstance = null) => {
       return reply.redirect('/session/new');
     }
     const { id } = request.params;
-    const { name } = request.body;
+    const { data } = request.body;
+    const { name } = data;
     try {
       await Label.query().patchAndFetchById(id, { name });
       request.flash('success', i18next.t('labelUpdated'));

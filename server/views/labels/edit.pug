@@ -5,5 +5,5 @@ block content
   form(action=`/labels/${label.id}` method="POST")
     .mb-3
       label.form-label(for="name") #{t('name')}
-      input.form-control(type="text" name="name" id="name" value=label.name)
-    button.btn.btn-primary(type="submit") #{t('save')}
+      input.form-control(type="text" name="data[name]" id="data_name" value=label.name)
+    button.btn.btn-primary(type="submit") #{t('edit')}

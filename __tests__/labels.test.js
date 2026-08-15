@@ -81,7 +81,7 @@ describe('POST /labels', () => {
       method: 'POST',
       url: '/labels',
       headers: { cookie },
-      payload: { name: 'bug' },
+      payload: { data: {name: 'bug' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/labels');
@@ -91,7 +91,7 @@ describe('POST /labels', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/labels',
-      payload: { name: 'bug' },
+      payload: { data: {name: 'bug' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/session/new');
@@ -106,7 +106,7 @@ describe('GET /labels/:id/edit', () => {
       method: 'POST',
       url: '/labels',
       headers: { cookie },
-      payload: { name: 'bug' },
+      payload: { data: {name: 'bug' }},
     });
     const listResponse = await app.inject({
       method: 'GET',
@@ -141,7 +141,7 @@ describe('POST /labels/:id', () => {
       method: 'POST',
       url: '/labels',
       headers: { cookie },
-      payload: { name: 'bug' },
+      payload: { data: {name: 'bug' }},
     });
     const listResponse = await app.inject({
       method: 'GET',
@@ -154,7 +154,7 @@ describe('POST /labels/:id', () => {
       method: 'POST',
       url: `/labels/${labelId}`,
       headers: { cookie },
-      payload: { name: 'feature' },
+      payload: { data: {name: 'feature' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/labels');
@@ -169,7 +169,7 @@ describe('POST /labels/:id/delete', () => {
       method: 'POST',
       url: '/labels',
       headers: { cookie },
-      payload: { name: 'bug' },
+      payload: { data: {name: 'bug' }},
     });
     const listResponse = await app.inject({
       method: 'GET',
