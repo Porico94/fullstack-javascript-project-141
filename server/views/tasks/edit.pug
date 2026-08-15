@@ -22,7 +22,7 @@ block content
           option(value=user.id selected=(user.id === task.executorId)) #{user.firstName} #{user.lastName}
     .mb-3
       label.form-label(for="data_labelIds") #{t('labels')}
-      select.form-select(name="data[labelIds][]" id="data_labelIds" multiple)
+      select.form-select(name="data[labelIds][]" id="data_labels" multiple)
         each label in labels
           option(value=label.id selected=(task.labels && task.labels.some(l => l.id === label.id))) #{label.name}
     button.btn.btn-primary(type="submit") #{t('edit')}
