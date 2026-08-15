@@ -37,7 +37,7 @@ const loginAs = async (email, password) => {
   const response = await app.inject({
     method: 'POST',
     url: '/session',
-    payload: { email, password },
+    payload: {data: { email, password }},
   });
   return response.headers['set-cookie'];
 };
@@ -114,7 +114,7 @@ describe('POST /session', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/session',
-      payload: { email: 'pool@test.com', password: 'password123' },
+      payload: { data: {email: 'pool@test.com', password: 'password123' }},
     });
     expect(response.statusCode).toBe(302);
     expect(response.headers.location).toBe('/');
@@ -124,7 +124,7 @@ describe('POST /session', () => {
     const response = await app.inject({
       method: 'POST',
       url: '/session',
-      payload: { email: 'noexiste@test.com', password: 'wrongpass' },
+      payload: { data: {email: 'noexiste@test.com', password: 'wrongpass' }},
     });
     expect(response.statusCode).toBe(401);
     expect(response.body).toContain('invalid-feedback');

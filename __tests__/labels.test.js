@@ -36,7 +36,7 @@ const loginAs = async (email, password) => {
   const response = await app.inject({
     method: 'POST',
     url: '/session',
-    payload: { email, password },
+    payload: {data: {email, password }},
   });
   return response.headers['set-cookie'];
 };

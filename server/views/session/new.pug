@@ -5,10 +5,10 @@ block content
   form(action="/session" method="POST")
     .mb-3
       label.form-label(for="email") Correo electrónico
-      input.form-control(class=signInError ? "is-invalid" : "" type="email" name="email" id="email")
+      input.form-control(class=signInError ? "is-invalid" : "" type="email" name="data[email]" id="email")
     .mb-3
       label.form-label(for="password") #{t('password')}
-      input.form-control(class=signInError ? "is-invalid" : "" type="password" name="password" id="password")
+      input.form-control(class=signInError ? "is-invalid" : "" type="password" name="data[password]" id="password")
       if signInError
         .invalid-feedback Correo electrónico o contraseña incorrectos
     button.btn.btn-primary(type="submit") #{t('logIn')}
