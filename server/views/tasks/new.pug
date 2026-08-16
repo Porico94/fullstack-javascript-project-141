@@ -5,15 +5,19 @@ block content
   form(action="/tasks" method="POST")
     .mb-3
       label.form-label(for="data_name") #{t('name')}
-      input.form-control(type="text" name="data[name]" id="data_name")
+      input.form-control(class=errors && errors.name ? "is-invalid" : "" type="text" name="data[name]" id="data_name")
+      if errors && errors.name
+        .invalid-feedback= errors.name[0].message
     .mb-3
       label.form-label(for="data_description") #{t('description')}
       textarea.form-control(name="data[description]" id="data_description")
     .mb-3
       label.form-label(for="data_statusId") #{t('status')}
-      select.form-select(name="data[statusId]" id="data_statusId")
+      select.form-select(class=errors && errors.statusId ? "is-invalid" : "" name="data[statusId]" id="data_statusId")
         each status in statuses
           option(value=status.id) #{status.name}
+      if errors && errors.statusId
+        .invalid-feedback= errors.statusId[0].message
     .mb-3
       label.form-label(for="data_executorId") #{t('executor')}
       select.form-select(name="data[executorId]" id="data_executorId")

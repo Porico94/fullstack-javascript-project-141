@@ -40,7 +40,7 @@
   "executor": "Ejecutor",
   "noExecutor": "Sin ejecutor",
   "taskCreated": "Tarea creada con éxito",
-  "taskCreateError": "Error al crear la tarea",
+  "taskCreateError": "No se pudo crear la tarea",
   "taskUpdated": "Tarea actualizada con éxito",
   "taskUpdateError": "Error al actualizar la tarea",
   "taskDeleted": "Tarea eliminada con éxito",
