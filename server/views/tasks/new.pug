@@ -14,6 +14,7 @@ block content
     .mb-3
       label.form-label(for="data_statusId") #{t('status')}
       select.form-select(class=errors && errors.statusId ? "is-invalid" : "" name="data[statusId]" id="data_statusId")
+        option(value="") #{t('all')}
         each status in statuses
           option(value=status.id) #{status.name}
       if errors && errors.statusId
