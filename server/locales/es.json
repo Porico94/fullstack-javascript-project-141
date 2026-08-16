@@ -43,7 +43,7 @@
   "taskCreateError": "Error al crear la tarea",
   "taskUpdated": "Tarea actualizada con éxito",
   "taskUpdateError": "Error al actualizar la tarea",
-  "taskDeleted": "Tarea eliminada exitosamente",
+  "taskDeleted": "Tarea eliminada con éxito",
   "labels": "Etiquetas",
   "createLabel": "Crear etiqueta",
   "editLabel": "Editar etiqueta",
